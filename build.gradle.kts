@@ -18,7 +18,7 @@ plugins {
 val metadata = ModMetadata.fromJson(rootProject.file("plugin.json"))
 if (indraGit.headTag() == null) metadata.version += "-SNAPSHOT"
 group = "com.xpdustry"
-val rootPackage = "com.xpdustry.template"
+val rootPackage = "com.xpdustry.sql4md"
 version = metadata.version
 description = metadata.description
 
@@ -39,16 +39,27 @@ repositories {
 dependencies {
     compileOnly(toxopid.dependencies.arcCore)
     compileOnly(toxopid.dependencies.mindustryCore)
-    compileOnly(libs.distributor.api)
 
-    testImplementation(libs.junit.api)
-    testRuntimeOnly(libs.junit.engine)
+    implementation(libs.sqlite)
+    implementation(libs.mysql)
+    // Up-to-date version of protobuf for mysql
+    runtimeOnly(libs.protobuf)
+    implementation(libs.mariadb)
 
-    compileOnly(libs.checker.qual)
-    testCompileOnly(libs.checker.qual)
+    // testImplementation(libs.junit.api)
+    // testRuntimeOnly(libs.junit.engine)
+
+    // compileOnly(libs.checker.qual)
+    // testCompileOnly(libs.checker.qual)
 
     annotationProcessor(libs.nullaway)
     errorprone(libs.errorprone.core)
+}
+
+configurations.runtimeClasspath {
+    exclude(group = "org.slf4j")
+    exclude(group = "com.google.errorprone")
+    exclude(group = "org.checkerframework")
 }
 
 signing {
@@ -115,7 +126,13 @@ tasks.shadowJar {
     archiveClassifier = "plugin"
     from(generateMetadataFile)
     from(rootProject.file("LICENSE.md")) { into("META-INF") }
-    minimize()
+
+    fun ezRelocate(pkg: String) = relocate(pkg, "$rootPackage.shadow.${pkg.split(".").last()}")
+    ezRelocate("com.github.benmanes.caffeine")
+    ezRelocate("com.google.protobuf")
+    ezRelocate("waffle")
+    ezRelocate("com.sun.jna")
+    mergeServiceFiles()
 }
 
 tasks.register<Copy>("release") {
@@ -143,13 +160,6 @@ val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
     version = "v${libs.versions.slf4md.get()}"
 }
 
-val downloadDistributorCommon by tasks.registering(GithubAssetDownload::class) {
-    owner = "xpdustry"
-    repo = "distributor"
-    asset = "distributor-common.jar"
-    version = "v${libs.versions.distributor.get()}"
-}
-
 tasks.runMindustryServer {
-    mods.from(downloadSlf4md, downloadDistributorCommon)
+    mods.from(downloadSlf4md)
 }

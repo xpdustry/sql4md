@@ -1,13 +1,13 @@
 {
-  "displayName": "TemplatePlugin",
-  "name": "template",
-  "description": "A template plugin for Mindustry to get you started quickly.",
-  "version": "5.0.0",
+  "displayName": "SQL4MD",
+  "name": "sql4md",
+  "description": "A plugin providing several SQL drivers for other plugins.",
+  "version": "1.0.0",
   "author": "xpdustry",
-  "repo": "xpdustry/template-plugin",
-  "main": "com.xpdustry.template.TemplatePlugin",
+  "repo": "xpdustry/sql4md",
+  "main": "com.xpdustry.sql4md.SQL4MDPlugin",
   "minGameVersion": "146",
   "java": true,
   "hidden": true,
-  "dependencies": ["distributor-common"]
+  "softDependencies": ["slf4md"]
 }

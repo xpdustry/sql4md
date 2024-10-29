@@ -1,5 +1,5 @@
 /*
- * This file is part of TemplatePlugin. A template plugin for Mindustry to get you started quickly.
+ * This file is part of SQL4MD. A plugin providing several SQL drivers for other plugins.
  *
  * MIT License
  *

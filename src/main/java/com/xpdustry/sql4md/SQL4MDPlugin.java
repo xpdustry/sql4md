@@ -23,19 +23,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.xpdustry.template;
+package com.xpdustry.sql4md;
 
-import arc.util.Log;
 import mindustry.mod.Plugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Template plugin.
  */
 @SuppressWarnings("unused")
-public final class TemplatePlugin extends Plugin {
+public final class SQL4MDPlugin extends Plugin {
+
+    private final Logger logger = LoggerFactory.getLogger(SQL4MDPlugin.class);
 
     @Override
     public void init() {
-        Log.info("Hello Template");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
+            Class.forName("org.mariadb.jdbc.Driver");
+            logger.info("Loaded JDBC drivers ({}, {}, {})", "MariaDB", "SQLite", "MySQL");
+        } catch (final ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load JDBC driver", e);
+        }
     }
 }
