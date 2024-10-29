@@ -2,8 +2,6 @@ import com.xpdustry.toxopid.extension.anukeXpdustry
 import com.xpdustry.toxopid.spec.ModMetadata
 import com.xpdustry.toxopid.spec.ModPlatform
 import com.xpdustry.toxopid.task.GithubAssetDownload
-import net.ltgt.gradle.errorprone.CheckSeverity
-import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     alias(libs.plugins.spotless)
@@ -12,7 +10,6 @@ plugins {
     alias(libs.plugins.indra.publishing)
     alias(libs.plugins.shadow)
     alias(libs.plugins.toxopid)
-    alias(libs.plugins.errorprone.gradle)
 }
 
 val metadata = ModMetadata.fromJson(rootProject.file("plugin.json"))
@@ -45,15 +42,6 @@ dependencies {
     // Up-to-date version of protobuf for mysql
     runtimeOnly(libs.protobuf)
     implementation(libs.mariadb)
-
-    // testImplementation(libs.junit.api)
-    // testRuntimeOnly(libs.junit.engine)
-
-    // compileOnly(libs.checker.qual)
-    // testCompileOnly(libs.checker.qual)
-
-    annotationProcessor(libs.nullaway)
-    errorprone(libs.errorprone.core)
 }
 
 configurations.runtimeClasspath {
@@ -139,18 +127,6 @@ tasks.register<Copy>("release") {
     dependsOn(tasks.build)
     from(tasks.shadowJar)
     destinationDir = temporaryDir
-}
-
-tasks.withType<JavaCompile> {
-    options.errorprone {
-        disableWarningsInGeneratedCode = true
-        disable("MissingSummary", "InlineMeSuggester")
-        if (!name.contains("test", ignoreCase = true)) {
-            check("NullAway", CheckSeverity.ERROR)
-            option("NullAway:AnnotatedPackages", rootPackage)
-            option("NullAway:TreatGeneratedAsUnannotated", true)
-        }
-    }
 }
 
 val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
