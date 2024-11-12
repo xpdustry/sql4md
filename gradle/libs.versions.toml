@@ -10,6 +10,7 @@ slf4md = "1.0.1"
 
 # sql libraries
 sqlite = "3.47.0.0"
+h2 = "2.3.232"
 mariadb = "3.5.0"
 mysql = "9.1.0"
 # overrides
@@ -20,6 +21,7 @@ protobuf = "4.28.3"
 sqlite = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version.ref = "mariadb" }
 mysql = { module = "com.mysql:mysql-connector-j", version.ref = "mysql" }
+h2 = { module = "com.h2database:h2", version.ref = "h2" }
 # overrides
 protobuf = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
 

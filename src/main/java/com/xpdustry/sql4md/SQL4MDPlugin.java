@@ -43,7 +43,8 @@ public final class SQL4MDPlugin extends Plugin {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Class.forName("org.sqlite.JDBC");
             Class.forName("org.mariadb.jdbc.Driver");
-            logger.info("Loaded JDBC drivers ({}, {}, {})", "MariaDB", "SQLite", "MySQL");
+            Class.forName("org.h2.Driver");
+            logger.info("Loaded JDBC drivers ({}, {}, {}, {})", "MariaDB", "SQLite", "MySQL", "H2");
         } catch (final ClassNotFoundException e) {
             throw new RuntimeException("Failed to load JDBC driver", e);
         }

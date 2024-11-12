@@ -9,6 +9,7 @@ Instead of bundling database binaries in your plugin, use this one instead, come
 
 - MySQL
 - MariaDB
+- H2
 - SQLite
 
 ## Installation

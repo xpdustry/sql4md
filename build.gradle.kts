@@ -38,6 +38,7 @@ dependencies {
     compileOnly(toxopid.dependencies.mindustryCore)
 
     implementation(libs.sqlite)
+    implementation(libs.h2)
     implementation(libs.mysql)
     // Up-to-date version of protobuf for mysql
     runtimeOnly(libs.protobuf)
