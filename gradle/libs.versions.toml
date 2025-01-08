@@ -14,7 +14,7 @@ h2 = "2.3.232"
 mariadb = "3.5.0"
 mysql = "9.1.0"
 # overrides
-protobuf = "4.28.3"
+protobuf = "4.29.3"
 
 [libraries]
 # sql libraries
