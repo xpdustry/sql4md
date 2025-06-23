@@ -36,12 +36,10 @@ repositories {
 dependencies {
     compileOnly(toxopid.dependencies.arcCore)
     compileOnly(toxopid.dependencies.mindustryCore)
-
+    compileOnly(libs.slf4j.api)
     implementation(libs.sqlite)
     implementation(libs.h2)
     implementation(libs.mysql)
-    // Up-to-date version of protobuf for mysql
-    runtimeOnly(libs.protobuf)
     implementation(libs.mariadb)
 }
 
