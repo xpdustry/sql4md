@@ -1,3 +1,4 @@
+import com.diffplug.spotless.FormatterFunc
 import com.xpdustry.toxopid.extension.anukeXpdustry
 import com.xpdustry.toxopid.spec.ModMetadata
 import com.xpdustry.toxopid.spec.ModPlatform
@@ -90,7 +91,13 @@ spotless {
         palantirJavaFormat()
         formatAnnotations()
         importOrder("", "\\#")
-        custom("no-wildcard-imports") { it.apply { if (contains("*;\n")) error("No wildcard imports allowed") } }
+        // I will kill someone
+        custom(
+            "no-wildcard-imports",
+            object : FormatterFunc, java.io.Serializable {
+                override fun apply(input: String) = input.apply { if (contains("*;\n")) error("No wildcard imports allowed") }
+            },
+        )
         licenseHeaderFile(rootProject.file("HEADER.txt"))
         bumpThisNumberIfACustomStepChanges(1)
     }
