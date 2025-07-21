@@ -3,7 +3,7 @@
 shadow = "8.3.6"
 indra = "3.1.3"
 toxopid = "4.1.2"
-spotless = "7.0.4"
+spotless = "7.2.1"
 
 # sql libraries
 sqlite = "3.50.1.0"
