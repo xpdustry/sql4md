@@ -6,7 +6,7 @@ toxopid = "4.1.2"
 spotless = "7.0.4"
 
 # sql libraries
-sqlite = "3.50.1.0"
+sqlite = "3.50.3.0"
 h2 = "2.3.232"
 mariadb = "3.5.3"
 mysql = "9.3.0"
