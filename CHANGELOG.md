@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v1.1.0 - 2024-11-12
 
-### Features
+### Features
 
 - Added H2 database support.
 

@@ -1,7 +1,8 @@
 # sql4md
 
-[![Build status](https://github.com/xpdustry/sql4md/actions/workflows/build.yml/badge.svg?branch=master&event=push)](https://github.com/xpdustry/sql4md/actions/workflows/build.yml)
-[![Mindustry 7.0](https://img.shields.io/badge/Mindustry-7.0-ffd37f)](https://github.com/Anuken/Mindustry/releases)
+[![Downloads](https://img.shields.io/github/downloads/xpdustry/sql4md/total?color=008080&label=Downloads)](https://github.com/xpdustry/sql4md/releases)
+[![Mindustry 8.0](https://img.shields.io/badge/Mindustry-8.0-008080)](https://github.com/Anuken/Mindustry/releases)
+[![Discord](https://img.shields.io/discord/519293558599974912?color=008080&label=Discord)](https://discord.xpdustry.com)
 
 ## Description
 
@@ -20,7 +21,7 @@ This plugin requires :
 
 - Java 17 or above.
 
-- Mindustry v146 or above.
+- Mindustry v151 or above.
 
 ## Building
 

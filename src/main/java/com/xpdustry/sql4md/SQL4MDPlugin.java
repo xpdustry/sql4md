@@ -3,7 +3,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2024 Xpdustry
+ * Copyright (c) 2025 Xpdustry
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ public final class SQL4MDPlugin extends Plugin {
             Class.forName("org.sqlite.JDBC");
             Class.forName("org.mariadb.jdbc.Driver");
             Class.forName("org.h2.Driver");
-            logger.info("Loaded JDBC drivers ({}, {}, {}, {})", "MariaDB", "SQLite", "MySQL", "H2");
+            this.logger.info("Loaded JDBC drivers ({}, {}, {}, {})", "MariaDB", "SQLite", "MySQL", "H2");
         } catch (final ClassNotFoundException e) {
             throw new RuntimeException("Failed to load JDBC driver", e);
         }

@@ -6,7 +6,7 @@
   "author": "xpdustry",
   "repo": "xpdustry/sql4md",
   "main": "com.xpdustry.sql4md.SQL4MDPlugin",
-  "minGameVersion": "146",
+  "minGameVersion": "151",
   "java": true,
   "hidden": true,
   "softDependencies": ["slf4md"]
