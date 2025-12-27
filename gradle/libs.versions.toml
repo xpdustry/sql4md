@@ -8,7 +8,7 @@ spotless = "8.0.0"
 # sql libraries
 sqlite = "3.50.3.0"
 h2 = "2.4.240"
-mariadb = "3.5.6"
+mariadb = "3.5.7"
 mysql = "9.4.0"
 
 # utilities
