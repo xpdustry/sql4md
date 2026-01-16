@@ -1,47 +1,54 @@
-import com.diffplug.spotless.FormatterFunc
 import com.xpdustry.toxopid.extension.anukeXpdustry
 import com.xpdustry.toxopid.spec.ModMetadata
 import com.xpdustry.toxopid.spec.ModPlatform
 import com.xpdustry.toxopid.task.GithubAssetDownload
+import com.xpdustry.toxopid.task.MindustryExec
 
 plugins {
-    alias(libs.plugins.spotless)
-    alias(libs.plugins.indra.common)
-    alias(libs.plugins.indra.git)
-    alias(libs.plugins.indra.publishing)
-    alias(libs.plugins.shadow)
-    alias(libs.plugins.toxopid)
+    id("com.diffplug.spotless") version "8.1.0"
+    id("net.kyori.indra") version "4.0.0"
+    id("com.gradleup.shadow") version "9.3.1"
+    id("com.xpdustry.toxopid") version "4.1.2"
 }
 
 val metadata = ModMetadata.fromJson(rootProject.file("plugin.json"))
-if (indraGit.headTag() == null) metadata.version += "-SNAPSHOT"
-group = "com.xpdustry"
 val rootPackage = "com.xpdustry.sql4md"
+metadata.version += if (findProperty("release").toString().toBoolean()) "" else "-SNAPSHOT"
 version = metadata.version
+group = "com.xpdustry"
 description = metadata.description
-
-toxopid {
-    compileVersion = "v${metadata.minGameVersion}"
-    platforms = setOf(ModPlatform.SERVER)
-}
 
 repositories {
     mavenCentral()
     anukeXpdustry()
-    maven("https://maven.xpdustry.com/releases") {
-        name = "xpdustry-releases"
-        mavenContent { releasesOnly() }
+}
+
+spotless {
+    java {
+        palantirJavaFormat()
+        forbidWildcardImports()
+        importOrder("", "\\#")
+        licenseHeaderFile(rootProject.file("HEADER.txt"))
+    }
+    kotlinGradle {
+        ktlint()
     }
 }
 
+toxopid {
+    compileVersion = "v" + metadata.minGameVersion
+    platforms = setOf(ModPlatform.SERVER)
+}
+
 dependencies {
-    compileOnly(toxopid.dependencies.arcCore)
     compileOnly(toxopid.dependencies.mindustryCore)
-    compileOnly(libs.slf4j.api)
-    implementation(libs.sqlite)
-    implementation(libs.h2)
-    implementation(libs.mysql)
-    implementation(libs.mariadb)
+    compileOnly(toxopid.dependencies.arcCore)
+    compileOnly("org.slf4j:slf4j-api:2.0.17")
+    runtimeOnly("org.xerial:sqlite-jdbc:3.51.1.0")
+    runtimeOnly("com.h2database:h2:2.4.240")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.5.7")
+    runtimeOnly("com.mysql:mysql-connector-j:9.5.0")
+    runtimeOnly("org.postgresql:postgresql:42.7.9")
 }
 
 configurations.runtimeClasspath {
@@ -50,20 +57,11 @@ configurations.runtimeClasspath {
     exclude(group = "org.checkerframework")
 }
 
-signing {
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKey, signingPassword)
-}
-
 indra {
     javaVersions {
         target(17)
         minimumToolchain(17)
     }
-
-    publishSnapshotsTo("xpdustry", "https://maven.xpdustry.com/snapshots")
-    publishReleasesTo("xpdustry", "https://maven.xpdustry.com/releases")
 
     mitLicense()
 
@@ -75,43 +73,13 @@ indra {
             scm(true)
         }
     }
-
-    configurePublications {
-        pom {
-            organization {
-                name = "xpdustry"
-                url = "https://www.xpdustry.com"
-            }
-        }
-    }
-}
-
-spotless {
-    java {
-        palantirJavaFormat()
-        formatAnnotations()
-        importOrder("", "\\#")
-        // I will kill someone
-        custom(
-            "no-wildcard-imports",
-            object : FormatterFunc, java.io.Serializable {
-                override fun apply(input: String) = input.apply { if (contains("*;\n")) error("No wildcard imports allowed") }
-            },
-        )
-        licenseHeaderFile(rootProject.file("HEADER.txt"))
-        bumpThisNumberIfACustomStepChanges(1)
-    }
-    kotlinGradle {
-        ktlint()
-    }
 }
 
 val generateMetadataFile by tasks.registering {
     inputs.property("metadata", metadata)
-    val output = temporaryDir.resolve("plugin.json")
-    outputs.file(output)
+    outputs.files(fileTree(temporaryDir))
     doLast {
-        output.writeText(ModMetadata.toJson(metadata))
+        temporaryDir.resolve("plugin.json").writeText(ModMetadata.toJson(metadata))
     }
 }
 
@@ -129,19 +97,21 @@ tasks.shadowJar {
     mergeServiceFiles()
 }
 
-tasks.register<Copy>("release") {
-    dependsOn(tasks.build)
-    from(tasks.shadowJar)
-    destinationDir = temporaryDir
-}
-
 val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
     owner = "xpdustry"
     repo = "slf4md"
     asset = "slf4md.jar"
-    version = "v${libs.versions.slf4md.get()}"
+    version = "v1.2.0"
 }
 
 tasks.runMindustryServer {
     mods.from(downloadSlf4md)
+}
+
+tasks.withType<MindustryExec> {
+    jvmArguments.add("--enable-native-access=ALL-UNNAMED")
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
 }

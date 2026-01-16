@@ -3,7 +3,7 @@
  *
  * MIT License
  *
- * Copyright (c) 2025 Xpdustry
+ * Copyright (c) 2024-2026 Xpdustry
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,25 +26,21 @@
 package com.xpdustry.sql4md;
 
 import mindustry.mod.Plugin;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Template plugin.
- */
 @SuppressWarnings("unused")
 public final class SQL4MDPlugin extends Plugin {
-
-    private final Logger logger = LoggerFactory.getLogger(SQL4MDPlugin.class);
 
     @Override
     public void init() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Class.forName("org.sqlite.JDBC");
             Class.forName("org.mariadb.jdbc.Driver");
+            Class.forName("org.sqlite.JDBC");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Class.forName("org.h2.Driver");
-            this.logger.info("Loaded JDBC drivers ({}, {}, {}, {})", "MariaDB", "SQLite", "MySQL", "H2");
+            Class.forName("org.postgresql.Driver");
+            LoggerFactory.getLogger(SQL4MDPlugin.class)
+                    .info("Loaded JDBC drivers ({}, {}, {}, {}, {})", "MariaDB", "SQLite", "MySQL", "H2", "PostGres");
         } catch (final ClassNotFoundException e) {
             throw new RuntimeException("Failed to load JDBC driver", e);
         }
