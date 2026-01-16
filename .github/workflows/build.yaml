@@ -99,4 +99,4 @@ jobs:
           commit_message: "chore(release): Post v${{ steps.version.outputs.version }} changes"
           repo: ${{ github.repository }}
           branch: ${{ github.event.release.target_commitish }}
-          file_pattern: "mod.json CHANGELOG.md"
+          file_pattern: "plugin.json CHANGELOG.md"
