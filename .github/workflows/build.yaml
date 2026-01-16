@@ -88,7 +88,7 @@ jobs:
 
       - name: "Bump Version"
         if: ${{ github.event_name == 'release' }}
-        run: .xpdustry-ci/scripts/version-bump.sh "mod.json" "${{ steps.version.outputs.version }}"
+        run: .xpdustry-ci/scripts/version-bump.sh "plugin.json" "${{ steps.version.outputs.version }}"
 
       - name: "Commit Release Changes"
         if: ${{ github.event_name == 'release' }}
