@@ -5,10 +5,10 @@ import com.xpdustry.toxopid.task.GithubAssetDownload
 import com.xpdustry.toxopid.task.MindustryExec
 
 plugins {
-    id("com.diffplug.spotless") version "8.1.0"
+    id("com.diffplug.spotless") version "8.2.1"
     id("net.kyori.indra") version "4.0.0"
     id("com.gradleup.shadow") version "9.3.1"
-    id("com.xpdustry.toxopid") version "4.1.2"
+    id("com.xpdustry.toxopid") version "4.2.0"
 }
 
 val metadata = ModMetadata.fromJson(rootProject.file("plugin.json"))
