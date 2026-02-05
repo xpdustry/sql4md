@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: artifacts
-          path: "build/libs/sql4md.jar"
+          path: "build/all-libs/*.jar"
           if-no-files-found: error
 
       - name: "Upload Test Results"
@@ -77,7 +77,7 @@ jobs:
         if: ${{ github.event_name == 'release' }}
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
-          files: "build/libs/sql4md.jar"
+          files: "build/all-libs/*.jar"
 
       - name: "Update Changelog"
         if: ${{ github.event_name == 'release' }}
@@ -88,7 +88,7 @@ jobs:
 
       - name: "Bump Version"
         if: ${{ github.event_name == 'release' }}
-        run: .xpdustry-ci/scripts/version-bump.sh "plugin.json" "${{ steps.version.outputs.version }}"
+        run: .xpdustry-ci/scripts/version-bump.sh "build.gradle.kts" "${{ steps.version.outputs.version }}"
 
       - name: "Commit Release Changes"
         if: ${{ github.event_name == 'release' }}
