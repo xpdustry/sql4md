@@ -2,7 +2,7 @@
   "displayName": "SQL4MD",
   "name": "sql4md",
   "description": "A plugin providing several SQL drivers for other plugins.",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "author": "xpdustry",
   "repo": "xpdustry/sql4md",
   "main": "com.xpdustry.sql4md.SQL4MDPlugin",
