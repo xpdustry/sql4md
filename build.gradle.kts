@@ -13,7 +13,7 @@ plugins {
     id("com.xpdustry.toxopid") version "4.2.0"
 }
 
-version = "2.0.0" + if (findProperty("release").toString().toBoolean()) "" else "-SNAPSHOT"
+version = "2.0.1" + if (findProperty("release").toString().toBoolean()) "" else "-SNAPSHOT"
 group = "com.xpdustry"
 description = "A collection of plugins providing SQL drivers for other plugins."
 
