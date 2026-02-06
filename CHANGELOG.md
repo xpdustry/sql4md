@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v2.0.0 - 2026-02-06
+
+### Changes & New features
+
+Drivers are now split  into their dedicated plugins.
+The `sql4md` plugin that contained everything at once no longer exists.
+More in the [README](https://github.com/xpdustry/sql4md).
+
+### Maintenance
+
+- Use spdx identifier instead of the whole license file ([`1eb0da9`](https://github.com/xpdustry/sql4md/commit/1eb0da97d27dcf8baa3fbdf64b6c22124ee91b90))
+
 ## v1.2.0 - 2026-01-16
 
 ### Changes & New features
