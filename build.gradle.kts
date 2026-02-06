@@ -35,6 +35,10 @@ val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
     version = "v1.2.0"
 }
 
+tasks.runMindustryServer {
+    mods.setFrom(downloadSlf4md)
+}
+
 allprojects {
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "net.kyori.indra")
@@ -78,6 +82,10 @@ allprojects {
             ktlint()
         }
     }
+
+    tasks.withType<MindustryExec> {
+        jvmArguments.add("--enable-native-access=ALL-UNNAMED")
+    }
 }
 
 for ((identifier, driver, library) in drivers) {
@@ -94,7 +102,7 @@ for ((identifier, driver, library) in drivers) {
                 minGameVersion = mindustryVersion,
                 java = true,
                 hidden = true,
-                dependencies = mutableListOf(ModDependency("slf4md", soft = true)),
+                dependencies = mutableListOf(ModDependency("slf4md", soft = identifier != "sqlite")),
             )
 
         dependencies {
@@ -141,10 +149,6 @@ for ((identifier, driver, library) in drivers) {
             mods.from(downloadSlf4md)
         }
 
-        tasks.withType<MindustryExec> {
-            jvmArguments.add("--enable-native-access=ALL-UNNAMED")
-        }
-
         tasks.build {
             dependsOn(tasks.shadowJar)
         }
@@ -154,6 +158,10 @@ for ((identifier, driver, library) in drivers) {
                 from(tasks.shadowJar)
                 into(rootProject.layout.buildDirectory.dir("all-libs"))
             }
+        }
+
+        rootProject.tasks.runMindustryServer {
+            mods.from(tasks.shadowJar)
         }
     }
 }
