@@ -35,6 +35,10 @@ val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
     version = "v1.2.0"
 }
 
+val dist by tasks.registering(Copy::class) {
+    destinationDir = temporaryDir
+}
+
 tasks.runMindustryServer {
     mods.setFrom(downloadSlf4md)
 }
@@ -153,11 +157,8 @@ for ((identifier, driver, library) in drivers) {
             dependsOn(tasks.shadowJar)
         }
 
-        rootProject.tasks.build {
-            copy {
-                from(tasks.shadowJar)
-                into(rootProject.layout.buildDirectory.dir("all-libs"))
-            }
+        dist {
+            from(tasks.shadowJar)
         }
 
         rootProject.tasks.runMindustryServer {
