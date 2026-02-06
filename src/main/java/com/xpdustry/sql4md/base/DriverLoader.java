@@ -4,6 +4,7 @@ package com.xpdustry.sql4md.base;
 import arc.util.Log;
 import java.util.Objects;
 import java.util.Properties;
+import mindustry.Vars;
 import mindustry.mod.Plugin;
 
 @SuppressWarnings("unused")
@@ -29,14 +30,18 @@ public final class DriverLoader extends Plugin {
             throw new RuntimeException("Failed to load the " + driver + " JDBC driver", e);
         }
 
-        final var message = "Loaded " + identifier + " JDBC driver";
         try {
             final var logger = Class.forName("org.slf4j.LoggerFactory")
                     .getMethod("getLogger", Class.class)
                     .invoke(null, this.getClass());
-            Class.forName("org.slf4j.Logger").getMethod("info", String.class).invoke(logger, message);
+            Class.forName("org.slf4j.Logger")
+                    .getMethod("info", String.class, Object.class)
+                    .invoke(logger, "Loaded the {} JDBC driver", identifier);
         } catch (final ReflectiveOperationException e) {
-            Log.info(message);
+            if (Vars.mods.getMod("slf4md") != null) {
+                Log.err("Failed to use slf4md for logging", e);
+            }
+            Log.info("Loaded the @ JDBC driver", identifier);
         }
     }
 }
