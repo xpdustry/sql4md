@@ -17,7 +17,7 @@ version = "2.0.0" + if (findProperty("release").toString().toBoolean()) "" else 
 group = "com.xpdustry"
 description = "A collection of plugins providing SQL drivers for other plugins."
 
-val mindustryVersion = "153"
+val mindustryVersion = "154"
 
 val drivers =
     listOf(
