@@ -106,7 +106,7 @@ for ((identifier, driver, library) in drivers) {
                 minGameVersion = mindustryVersion,
                 java = true,
                 hidden = true,
-                dependencies = mutableListOf(ModDependency("slf4md", soft = identifier != "sqlite")),
+                dependencies = mutableListOf(ModDependency("slf4md", soft = true)),
             )
 
         dependencies {
