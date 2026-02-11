@@ -25,7 +25,7 @@ val drivers =
         Triple("h2", "org.h2.Driver", "com.h2database:h2:2.4.240"),
         Triple("mariadb", "org.mariadb.jdbc.Driver", "org.mariadb.jdbc:mariadb-java-client:3.5.7"),
         Triple("mysql", "com.mysql.cj.jdbc.Driver", "com.mysql:mysql-connector-j:9.6.0"),
-        Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.9"),
+        Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.10"),
     )
 
 val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
