@@ -21,11 +21,11 @@ val mindustryVersion = "154"
 
 val drivers =
     listOf(
-        Triple("sqlite", "org.sqlite.JDBC", "org.xerial:sqlite-jdbc:3.53.0.0"),
+        Triple("sqlite", "org.sqlite.JDBC", "org.xerial:sqlite-jdbc:3.53.1.0"),
         Triple("h2", "org.h2.Driver", "com.h2database:h2:2.4.240"),
         Triple("mariadb", "org.mariadb.jdbc.Driver", "org.mariadb.jdbc:mariadb-java-client:3.5.8"),
         Triple("mysql", "com.mysql.cj.jdbc.Driver", "com.mysql:mysql-connector-j:9.7.0"),
-        Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.10"),
+        Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.11"),
     )
 
 val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
