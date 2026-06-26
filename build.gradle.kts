@@ -7,9 +7,9 @@ import com.xpdustry.toxopid.task.MindustryExec
 import java.util.Properties
 
 plugins {
-    id("com.diffplug.spotless") version "8.4.0"
+    id("com.diffplug.spotless") version "8.7.0"
     id("net.kyori.indra") version "4.0.0"
-    id("com.gradleup.shadow") version "9.4.1"
+    id("com.gradleup.shadow") version "9.4.3"
     id("com.xpdustry.toxopid") version "4.2.0"
 }
 
