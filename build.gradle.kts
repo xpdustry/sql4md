@@ -4,6 +4,7 @@ import com.xpdustry.toxopid.spec.ModMetadata
 import com.xpdustry.toxopid.spec.ModPlatform
 import com.xpdustry.toxopid.task.GithubAssetDownload
 import com.xpdustry.toxopid.task.MindustryExec
+import org.gradle.kotlin.dsl.register
 import java.util.Properties
 
 plugins {
@@ -17,7 +18,7 @@ version = "2.0.3" + if (findProperty("release").toString().toBoolean()) "" else 
 group = "com.xpdustry"
 description = "A collection of plugins providing SQL drivers for other plugins."
 
-val mindustryVersion = "154"
+val mindustryVersion = "158"
 
 val drivers =
     listOf(
@@ -26,22 +27,21 @@ val drivers =
         Triple("mariadb", "org.mariadb.jdbc.Driver", "org.mariadb.jdbc:mariadb-java-client:3.5.8"),
         Triple("mysql", "com.mysql.cj.jdbc.Driver", "com.mysql:mysql-connector-j:9.7.0"),
         Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.10"),
+        Triple("postgresql-embedded", "org.postgresql.Driver", "io.zonky.test:embedded-postgres:2.2.2"),
     )
 
-val downloadSlf4md by tasks.registering(GithubAssetDownload::class) {
-    owner = "xpdustry"
-    repo = "slf4md"
-    asset = "slf4md.jar"
-    version = "v1.2.0"
-}
+val downloadSlf4md =
+    tasks.register<GithubAssetDownload>("downloadSlf4md") {
+        owner = "xpdustry"
+        repo = "slf4md"
+        asset = "slf4md.jar"
+        version = "v1.2.0"
+    }
 
-val dist by tasks.registering(Copy::class) {
-    destinationDir = temporaryDir
-}
-
-tasks.runMindustryServer {
-    mods.setFrom(downloadSlf4md)
-}
+val dist =
+    tasks.register<Copy>("dist") {
+        destinationDir = temporaryDir
+    }
 
 allprojects {
     apply(plugin = "com.diffplug.spotless")
@@ -90,24 +90,34 @@ allprojects {
     tasks.withType<MindustryExec> {
         jvmArguments.add("--enable-native-access=ALL-UNNAMED")
     }
+
+    tasks.runMindustryServer {
+        dependsOn(downloadSlf4md)
+        mods.from(downloadSlf4md)
+    }
 }
 
 for ((identifier, driver, library) in drivers) {
     project(":sql4md-$identifier") {
+        val `package` = identifier.replace("-", "_")
         val metadata =
             ModMetadata(
                 displayName = "SQL4MD-${identifier.uppercase()}",
                 name = "sql4md-$identifier",
-                description = "$description. This implementation provides the $identifier driver.",
+                description = "$description This implementation provides the $identifier driver.",
                 version = version.toString(),
                 author = "xpdustry",
                 repository = "xpdustry/sql4md",
-                mainClass = "com.xpdustry.sql4md.$identifier.DriverLoader",
+                mainClass = "com.xpdustry.sql4md.$`package`.DriverLoader",
                 minGameVersion = mindustryVersion,
                 java = true,
                 hidden = true,
                 dependencies = mutableListOf(ModDependency("slf4md", soft = true)),
             )
+
+        if (identifier == "postgresql-embedded") {
+            metadata.dependencies += ModDependency("sql4md-postgresql")
+        }
 
         dependencies {
             runtimeOnly(library)
@@ -118,21 +128,26 @@ for ((identifier, driver, library) in drivers) {
             exclude(group = "org.slf4j")
             exclude(group = "com.google.errorprone")
             exclude(group = "org.checkerframework")
-        }
 
-        val generateResourceFiles by tasks.registering {
-            inputs.property("metadata", metadata)
-            outputs.files(fileTree(temporaryDir))
-            doLast {
-                temporaryDir.resolve("plugin.json").writeText(ModMetadata.toJson(metadata))
-                temporaryDir.resolve("sql4md.properties").outputStream().use { stream ->
-                    val props = Properties()
-                    props["sql4md.implementation.identifier"] = identifier
-                    props["sql4md.implementation.driver"] = driver
-                    props.store(stream, null)
-                }
+            if (identifier == "postgresql-embedded") {
+                exclude(group = "org.postgresql")
             }
         }
+
+        val generateResourceFiles =
+            tasks.register("generateResourceFiles") {
+                inputs.property("metadata", metadata)
+                outputs.files(fileTree(temporaryDir))
+                doLast {
+                    temporaryDir.resolve("plugin.json").writeText(ModMetadata.toJson(metadata))
+                    temporaryDir.resolve("sql4md.properties").outputStream().use { stream ->
+                        val props = Properties()
+                        props["sql4md.implementation.identifier"] = identifier
+                        props["sql4md.implementation.driver"] = driver
+                        props.store(stream, null)
+                    }
+                }
+            }
 
         tasks.shadowJar {
             archiveFileName = "${metadata.name}.jar"
@@ -140,17 +155,16 @@ for ((identifier, driver, library) in drivers) {
             from(generateResourceFiles)
             from(rootProject.file("LICENSE.md")) { into("META-INF") }
 
-            fun relocate(pkg: String) = relocate(pkg, "com.xpdustry.sql4md.$identifier.shadow.${pkg.split(".").last()}")
+            fun relocate(value: String) = relocate(value, "com.xpdustry.sql4md.$`package`.shadow.${value.split(".").last()}")
             relocate("com.github.benmanes.caffeine")
             relocate("com.google.protobuf")
             relocate("waffle")
             relocate("com.sun.jna")
-            relocate("com.xpdustry.sql4md.base", "com.xpdustry.sql4md.$identifier")
+            // relocate("io.zonky.test")
+            relocate("org.apache.commons")
+            relocate("org.tukaani")
+            relocate("com.xpdustry.sql4md.base", "com.xpdustry.sql4md.$`package`")
             mergeServiceFiles()
-        }
-
-        tasks.runMindustryServer {
-            mods.from(downloadSlf4md)
         }
 
         tasks.build {
@@ -162,6 +176,7 @@ for ((identifier, driver, library) in drivers) {
         }
 
         rootProject.tasks.runMindustryServer {
+            dependsOn(tasks.shadowJar)
             mods.from(tasks.shadowJar)
         }
     }

@@ -10,13 +10,14 @@ With this plugin, you will no longer need to bundle your database drivers inside
 
 ## Supported Databases
 
-| Name       | Plugin ID         | Website                                                              |
-|------------|-------------------|----------------------------------------------------------------------|
-| SQLite     | sql4md-sqlite     | [GitHub](https://github.com/xerial/sqlite-jdbc)                      |
-| H2         | sql4md-h2         | [GitHub](https://github.com/h2database/h2database)                   |
-| MariaDB    | sql4md-mariadb    | [GitHub](https://github.com/mariadb-corporation/mariadb-connector-j) |
-| MySQL      | sql4md-mysql      | [GitHub](https://github.com/mysql/mysql-connector-j)                 |
-| PostgreSQL | sql4md-postgresql | [Website](https://jdbc.postgresql.org/)                              |
+| Name                | Plugin ID                   | Website                                                              |
+|---------------------|-----------------------------|----------------------------------------------------------------------|
+| SQLite              | sql4md-sqlite               | [GitHub](https://github.com/xerial/sqlite-jdbc)                      |
+| H2                  | sql4md-h2                   | [GitHub](https://github.com/h2database/h2database)                   |
+| MariaDB             | sql4md-mariadb              | [GitHub](https://github.com/mariadb-corporation/mariadb-connector-j) |
+| MySQL               | sql4md-mysql                | [GitHub](https://github.com/mysql/mysql-connector-j)                 |
+| PostgreSQL          | sql4md-postgresql           | [Website](https://jdbc.postgresql.org/)                              |
+| Embedded PostgreSQL | sql4md-postgresql-embedded  | [GitHub](https://github.com/zonkyio/embedded-postgres)               |
 
 ## Usage
 
@@ -24,7 +25,7 @@ With this plugin, you will no longer need to bundle your database drivers inside
 
 This plugin requires :
 
-- Mindustry v154 or above.
+- Mindustry v158 or above.
 
 - Java 17 or above.
 
@@ -73,12 +74,13 @@ tasks.withType(MindustryExec).configureEach {
 ```kt
 import com.xpdustry.toxopid.task.GithubAssetDownload
 import com.xpdustry.toxopid.task.MindustryExec
+import org.gradle.kotlin.dsl.register
 
 plugins {
     id("com.xpdustry.toxopid") version "4.x.x"
 }
 
-val downloadSql4md by tasks.registering(GithubAssetDownload::class) {
+val downloadSql4md by tasks.register<GithubAssetDownload>("downloadSql4md") {
     owner = "xpdustry"
     repo = "sql4md"
     asset = "sql4md-sqlite.jar"
