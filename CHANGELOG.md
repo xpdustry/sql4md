@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v2.1.0 - 2026-06-27
+
+### Changes & New Features
+
+- Added embedded postgresql ([`406ef67`](https://github.com/xpdustry/sql4md/commit/406ef67250fab6e1ad51337bc8680f2c2c445d99))
+- Bumped minimum Mindustry version to v158 ([`406ef67`](https://github.com/xpdustry/sql4md/commit/406ef67250fab6e1ad51337bc8680f2c2c445d99))
+- Updated database drivers ([`337294e`](https://github.com/xpdustry/sql4md/commit/337294efc0d698a386c55a83ae2b5696e5e40192))
+
 ## v2.0.2 - 2026-04-22
 
 ### Maintenance
