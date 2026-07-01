@@ -26,7 +26,7 @@ val drivers =
         Triple("h2", "org.h2.Driver", "com.h2database:h2:2.4.240"),
         Triple("mariadb", "org.mariadb.jdbc.Driver", "org.mariadb.jdbc:mariadb-java-client:3.5.9"),
         Triple("mysql", "com.mysql.cj.jdbc.Driver", "com.mysql:mysql-connector-j:9.7.0"),
-        Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.11"),
+        Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.12"),
         Triple("postgresql-embedded", "org.postgresql.Driver", "io.zonky.test:embedded-postgres:2.2.2"),
     )
 
