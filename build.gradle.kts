@@ -25,7 +25,7 @@ val drivers =
         Triple("sqlite", "org.sqlite.JDBC", "org.xerial:sqlite-jdbc:3.53.4.0"),
         Triple("h2", "org.h2.Driver", "com.h2database:h2:2.5.252"),
         Triple("mariadb", "org.mariadb.jdbc.Driver", "org.mariadb.jdbc:mariadb-java-client:3.5.10"),
-        Triple("mysql", "com.mysql.cj.jdbc.Driver", "com.mysql:mysql-connector-j:9.7.0"),
+        Triple("mysql", "com.mysql.cj.jdbc.Driver", "com.mysql:mysql-connector-j:26.7.0"),
         Triple("postgresql", "org.postgresql.Driver", "org.postgresql:postgresql:42.7.13"),
         Triple("postgresql-embedded", "org.postgresql.Driver", "io.zonky.test:embedded-postgres:2.2.2"),
     )
