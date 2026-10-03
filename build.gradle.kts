@@ -35,7 +35,7 @@ val downloadSlf4md =
         owner = "xpdustry"
         repo = "slf4md"
         asset = "slf4md.jar"
-        version = "v1.2.0"
+        version = "v1.3.0"
     }
 
 val dist =
