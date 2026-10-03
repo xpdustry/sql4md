@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v2.1.1 - 2026-10-03
+
+### Maintenance
+
+- Updated sqlite-jdbc to v3.53.4.0, h2 to v2.5.252, mariadb-java-client to v3.5.10 and postgresql to v42.7.13 ([`dac90b9`](https://github.com/xpdustry/sql4md/commit/dac90b98542e65a8b71abd3647061a211e032cea))
+- Updated mysql-connector-j to v26.7.0, which officially supports MySQL Server 8.4 and later ([`fe74ac3`](https://github.com/xpdustry/sql4md/commit/fe74ac387bcbde7ba70c402a1f2a3604798f026b))
+- Updated build systems and CI actions ([`542aff0`](https://github.com/xpdustry/sql4md/commit/542aff08dc83a56d23177dda8821f522b8b665af), [`c996ecd`](https://github.com/xpdustry/sql4md/commit/c996ecdee3f837102b1e6ad02d34d02bafa2c500))
+
 ## v2.1.0 - 2026-06-27
 
 ### Changes & New Features
